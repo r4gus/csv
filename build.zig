@@ -34,6 +34,12 @@ pub fn build(b: *std.Build) !void {
     // location when the user invokes the "install" step (the default step when
     // running `zig build`).
     b.installArtifact(lib);
+    lib.installHeadersDirectoryOptions(.{
+        .source_dir = std.Build.LazyPath{ .path = "include" },
+        .install_dir = .header,
+        .install_subdir = "csv",
+        .exclude_extensions = &.{".c"},
+    });
 
     const example = b.addExecutable(.{
         .name = "example",
